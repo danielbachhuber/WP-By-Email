@@ -67,7 +67,7 @@ class WPBE_Emails extends WP_By_Email {
 		foreach( $users as $user ) {
 
 			if ( $comment->user_id == $user->ID ) {
-				if ( ! apply_filters( 'p2be_emails_send_notif_to_author', false, 'comment', $user ) )
+				if ( ! apply_filters( 'wpbe_emails_send_notif_to_author', false, 'comment', $user ) )
 					continue;
 			}
 
@@ -118,7 +118,7 @@ class WPBE_Emails extends WP_By_Email {
 		$comment->comment_content = $this->add_user_mention( $user, $comment->comment_content );
 
 		$message = $this->get_email_message_comment( $comment );
-		$message = apply_filters( 'p2be_notification_message', $message, 'comment', $comment );
+		$message = apply_filters( 'wpbe_notification_message', $message, 'comment', $comment );
 
 		$mail_args = array(
 				'type'        => 'comment',
@@ -151,8 +151,8 @@ class WPBE_Emails extends WP_By_Email {
 			$this->get_default_from_name(), 
 			$this->get_default_from_address() );
 
-		$reply_to_name = apply_filters( 'p2be_emails_reply_to_name', '',  $args['type'], $args['id'] );
-		$reply_to_email = apply_filters( 'p2be_emails_reply_to_email', '',  $args['type'], $args['id'] );
+		$reply_to_name = apply_filters( 'wpbe_emails_reply_to_name', '',  $args['type'], $args['id'] );
+		$reply_to_email = apply_filters( 'wpbe_emails_reply_to_email', '',  $args['type'], $args['id'] );
 		if ( $reply_to_name && $reply_to_email )
 			$headers[] = sprintf( 'Reply-To: %s <%s>', $reply_to_name, $reply_to_email );
 
