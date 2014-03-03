@@ -1,9 +1,9 @@
 <?php
 /**
- * Interact with P2 By Email at the command line
+ * Interact with WP By Email at the command line
  */
 
-class P2BE_CLI_Command extends WP_CLI_Command {
+class WPBE_CLI_Command extends WP_CLI_Command {
 
 	/**
 	 * Send email notifications for a given post
@@ -26,11 +26,11 @@ class P2BE_CLI_Command extends WP_CLI_Command {
 			WP_CLI::error( "Invalid user specified" );
 
 		if ( $user_login ) {
-			P2_By_Email()->extend->emails->send_post_notifications( $post, $user );
+			WP_By_Email()->extend->emails->send_post_notifications( $post, $user );
 			WP_CLI::success( "Sent email to {$user_login} for post #{$post_id}." );
 		} else {
-			add_filter( 'p2be_emails_sent_post', '__return_false' );
-			P2_By_Email()->extend->emails->queue_post_notifications( $post );
+			add_filter( 'wpbe_emails_sent_post', '__return_false' );
+			WP_By_Email()->extend->emails->queue_post_notifications( $post );
 			WP_CLI::success( "Emails sent to all users subscribed to post #{$post_id}." );
 		}
 	}
@@ -56,10 +56,10 @@ class P2BE_CLI_Command extends WP_CLI_Command {
 			WP_CLI::error( "Invalid user specified" );
 
 		if ( $user_login ) {
-			P2_By_Email()->extend->emails->send_comment_notifications( $comment_id, $user );
+			WP_By_Email()->extend->emails->send_comment_notifications( $comment_id, $user );
 			WP_CLI::success( "Sent email to {$user_login} for comment #{$comment_id}." );
 		} else {
-			P2_By_Email()->extend->emails->queue_comment_notifications( $comment_id );
+			WP_By_Email()->extend->emails->queue_comment_notifications( $comment_id );
 			WP_CLI::success( "Emails sent to all users subscribed to comment #{$comment_id}." );
 		}
 
@@ -77,12 +77,12 @@ class P2BE_CLI_Command extends WP_CLI_Command {
 				'username'       => '', // Full email address for Gmail
 				'password'       => '', // Whatever the password is
 				'inbox'          => 'INBOX', // Where the new emails will go
-				'archive'        => 'P2BE_ARCHIVE', // Where you'd like emails put after they've been processed
+				'archive'        => 'WPBE_ARCHIVE', // Where you'd like emails put after they've been processed
 			);
 		$connection_details = array_merge( $defaults, $assoc_args );
 
-		$connection_details = apply_filters( 'p2be_imap_connection_details', $connection_details );
-		$ret = P2_By_Email()->extend->email_replies->ingest_emails( $connection_details );
+		$connection_details = apply_filters( 'wpbe_imap_connection_details', $connection_details );
+		$ret = WP_By_Email()->extend->email_replies->ingest_emails( $connection_details );
 		if ( is_wp_error( $ret ) )
 			WP_CLI::error( $ret->get_error_message() );
 		else
@@ -90,4 +90,4 @@ class P2BE_CLI_Command extends WP_CLI_Command {
 	}
 
 }
-WP_CLI::add_command( 'p2-by-email', 'P2BE_CLI_Command' );
+WP_CLI::add_command( 'wp-by-email', 'WPBE_CLI_Command' );

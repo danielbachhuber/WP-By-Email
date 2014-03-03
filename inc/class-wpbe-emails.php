@@ -1,11 +1,11 @@
 <?php
 
-class P2BE_Emails extends P2_By_Email {
+class WPBE_Emails extends WP_By_Email {
 
-	private $sent_post_key = 'p2be_sent_timestamp';
+	private $sent_post_key = 'wpbe_sent_timestamp';
 
 	public function __construct() {
-		add_action( 'p2be_after_setup_actions', array( $this, 'setup_actions' ) );
+		add_action( 'wpbe_after_setup_actions', array( $this, 'setup_actions' ) );
 	}
 
 	public function setup_actions() {
@@ -33,7 +33,7 @@ class P2BE_Emails extends P2_By_Email {
 		$post = get_post( $post );
 
 		// Only send one email; don't send again if update post triggers 'publish_post'
-		if ( apply_filters( 'p2be_emails_sent_post', get_post_meta( $post->ID, $this->sent_post_key, true ), $post->ID ) )
+		if ( apply_filters( 'wpbe_emails_sent_post', get_post_meta( $post->ID, $this->sent_post_key, true ), $post->ID ) )
 			return;
 		else
 			update_post_meta( $post->ID, $this->sent_post_key, time() );
@@ -42,11 +42,11 @@ class P2BE_Emails extends P2_By_Email {
 		foreach( $users as $user ) {
 
 			if ( $post->post_author == $user->ID ) {
-				if ( ! apply_filters( 'p2be_emails_send_notif_to_author', false, 'post', $user ) )
+				if ( ! apply_filters( 'wpbe_emails_send_notif_to_author', false, 'post', $user ) )
 					continue;
 			}
 
-			$user_options = P2_By_Email()->extend->settings->get_user_notification_options( $user->ID );
+			$user_options = WP_By_Email()->extend->settings->get_user_notification_options( $user->ID );
 			if ( 'all' == $user_options['posts']
 				|| ( 'yes' == $user_options['mentions'] && $this->is_user_mentioned( $user, $post->post_content ) ) )
 					$this->send_post_notification( $post, $user );
@@ -71,7 +71,7 @@ class P2BE_Emails extends P2_By_Email {
 					continue;
 			}
 
-			$user_options = P2_By_Email()->extend->settings->get_user_notification_options( $user->ID );
+			$user_options = WP_By_Email()->extend->settings->get_user_notification_options( $user->ID );
 			if ( 'all' == $user_options['comments']
 				|| ( 'yes' == $user_options['mentions'] && $this->is_user_mentioned( $user, $comment->comment_content ) ) )
 
@@ -88,12 +88,12 @@ class P2BE_Emails extends P2_By_Email {
 		$subject = sprintf( '[New post] %s', apply_filters( 'the_title', get_the_title( $post->ID ) ) );
 		if ( $remove_texturize )
 			add_filter( 'the_title', 'wptexturize' );
-		$subject = apply_filters( 'p2be_notification_subject', $subject, 'post', $post );
+		$subject = apply_filters( 'wpbe_notification_subject', $subject, 'post', $post );
 
 		$post->post_content = $this->add_user_mention( $user, $post->post_content );
 
 		$message = $this->get_email_message_post( $post );
-		$message = apply_filters( 'p2be_notification_message', $message, 'post', $post );
+		$message = apply_filters( 'wpbe_notification_message', $message, 'post', $post );
 
 		$mail_args = array(
 				'type'        => 'post',
@@ -113,7 +113,7 @@ class P2BE_Emails extends P2_By_Email {
 		$subject = sprintf( '[New comment] %s', apply_filters( 'the_title', get_the_title( $comment->comment_post_ID ) ) );
 		if ( $remove_texturize )
 			add_filter( 'the_title', 'wptexturize' );
-		$subject = apply_filters( 'p2be_notification_subject', $subject, 'comment', $comment );
+		$subject = apply_filters( 'wpbe_notification_subject', $subject, 'comment', $comment );
 
 		$comment->comment_content = $this->add_user_mention( $user, $comment->comment_content );
 
@@ -232,4 +232,4 @@ class P2BE_Emails extends P2_By_Email {
 
 }
 
-P2_By_Email()->extend->emails = new P2BE_Emails();
+WP_By_Email()->extend->emails = new WPBE_Emails();
