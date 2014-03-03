@@ -59,7 +59,7 @@ None yet... Feel free to ask a question in the forums!
 
 = 1.1 (??? ?? ????) =
 
-* Renamed the plugin to "WP By Email" to better reflect that it's theme-agnostic.
+* Renamed the plugin to "WP By Email" to better reflect that it's theme-agnostic. If you were using P2 By Email before, you'll need to rename any `p2be_` filters to their `wpbe_` equivalents.
 * Allow the "From Address" to be filtered. [Thanks westonruter](https://github.com/westonruter).
 * Bug fix: Fix from: mailing address when site uses HTTPS. [Thanks rjmackay](https://github.com/rjmackay).
 
