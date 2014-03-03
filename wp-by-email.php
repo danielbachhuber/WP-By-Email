@@ -4,7 +4,7 @@ Plugin Name: WP By Email
 Version: 1.1-alpha
 Description: For those who like to interact with WordPress by email.
 Author: danielbachhuber, humanmade
-Author URI: http://hmn.md/
+Author URI: http://danielbachhuber.com/
 Plugin URI: http://wordpress.org/extend/plugins/wp-by-email/
 Text Domain: wp-by-email
 Domain Path: /languages
