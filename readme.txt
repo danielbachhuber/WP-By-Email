@@ -1,15 +1,15 @@
-=== P2 By Email ===
+=== WP By Email ===
 Contributors: danielbachhuber, humanmade
 Tags: gtd, productivity, workflow, p2, email notifications
 Requires at least: 3.4
 Tested up to: 3.6-alpha
 Stable tag: 1.0
 
-Use P2? Use email? Use both!
+Use WordPress? Use email? Use both!
 
 == Description ==
 
-P2 By Email enables you to use P2 by email:
+WP By Email enables you to use WordPress by email:
 
 * Get instant notifications when posts or comments are published.
 * Ensure you're always notified when your username is mentioned.
@@ -20,7 +20,7 @@ Perfect for communicating with your team while on the go.
 
 Users can change their communication preferences from the default of all posts and comments using profile settings. A special setting can ensure they always receive an email when their username is mentioned.
 
-Want another feature added? [Send us a pull request](https://github.com/humanmade/P2-By-Email/) and we'll consider it. Reply by email depends on a [young email reply parsing class](https://github.com/humanmade/What-The-Email) — there's the chance a comment will appear oddly, and we welcome improvements to the regex.
+Want another feature added? [Send us a pull request](https://github.com/danielbachhuber/WP-By-Email/) and we'll consider it. Reply by email depends on a [young email reply parsing class](https://github.com/humanmade/What-The-Email) — there's the chance a comment will appear oddly, and we welcome improvements to the regex.
 
 == Installation ==
 
@@ -35,14 +35,14 @@ By default, all users will receive all post and comment notifications.
 Enabling posting or replying by email takes a few more steps:
 
 1. Register a Gmail or similar email account that supports IMAP.
-1. Add the code snippet below with account details to your theme's functions.php file. It tells P2 By Email that you're set up to use post or reply by email.
-1. Install [wp-cli](http://wp-cli.org/) and set up a system cron job to regularly call `wp p2-by-email ingest-emails`.
+1. Add the code snippet below with account details to your theme's functions.php file. It tells WP By Email that you're set up to use post or reply by email.
+1. Install [wp-cli](http://wp-cli.org/) and set up a system cron job to regularly call `wp wp-by-email ingest-emails`.
 
-`add_filter( 'p2be_email_replies_enabled', '__return_true' );
-add_filter( 'p2be_emails_reply_to_email', function( $email ) {
+`add_filter( 'wpbe_email_replies_enabled', '__return_true' );
+add_filter( 'wpbe_emails_reply_to_email', function( $email ) {
 	return 'YOURACCOUNT@gmail.com';
 });
-add_filter( 'p2be_imap_connection_details', function( $details ) {
+add_filter( 'wpbe_imap_connection_details', function( $details ) {
 
 	$details['host'] = '{imap.gmail.com:993/imap/ssl/novalidate-cert}';
 	$details['username'] = 'YOURACCOUNT@gmail.com';
@@ -59,6 +59,7 @@ None yet... Feel free to ask a question in the forums!
 
 = 1.1 (??? ?? ????) =
 
+* Renamed the plugin to "WP By Email" to better reflect that it's theme-agnostic. If you were using P2 By Email before, you'll need to rename any `p2be_` filters to their `wpbe_` equivalents.
 * Allow the "From Address" to be filtered. [Thanks westonruter](https://github.com/westonruter).
 * Bug fix: Fix from: mailing address when site uses HTTPS. [Thanks rjmackay](https://github.com/rjmackay).
 

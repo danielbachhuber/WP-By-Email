@@ -1,12 +1,12 @@
 <?php
 
-class P2BE_Email_Replies extends P2_By_Email {
+class WPBE_Email_Replies extends WP_By_Email {
 
-	private $secret_key = 'p2be_object_secret';
-	private $orig_body_key = 'p2be_orig_body';
+	private $secret_key = 'wpbe_object_secret';
+	private $orig_body_key = 'wpbe_orig_body';
 
 	public function __construct() {
-		add_action( 'p2be_after_setup_actions', array( $this, 'setup_actions' ) );
+		add_action( 'wpbe_after_setup_actions', array( $this, 'setup_actions' ) );
 	}
 
 	public function setup_actions() {
@@ -20,12 +20,12 @@ class P2BE_Email_Replies extends P2_By_Email {
 		if ( ! $this->is_enabled() )
 			return;
 
-		add_filter( 'p2be_emails_reply_to_name', array( $this, 'filter_reply_to_name' ), 11, 3 );
-		add_filter( 'p2be_emails_reply_to_email', array( $this, 'filter_reply_to_email' ), 11, 3 );
+		add_filter( 'wpbe_emails_reply_to_name', array( $this, 'filter_reply_to_name' ), 11, 3 );
+		add_filter( 'wpbe_emails_reply_to_email', array( $this, 'filter_reply_to_email' ), 11, 3 );
 	}
 
 	public function is_enabled() {
-		return apply_filters( 'p2be_email_replies_enabled', false );
+		return apply_filters( 'wpbe_email_replies_enabled', false );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class P2BE_Email_Replies extends P2_By_Email {
 
 		$this->imap_connection = imap_open( $connection_details['host'] . 'INBOX', $connection_details['username'], $connection_details['password'] );
 		if ( ! $this->imap_connection )
-			return new WP_Error( 'connection-error', __( 'Error connecting to mailbox', 'p2-by-email' ) );
+			return new WP_Error( 'connection-error', __( 'Error connecting to mailbox', 'wp-by-email' ) );
 
 		// Check to see if the archive mailbox exists, and create it if it doesn't
 		$mailboxes = imap_getmailboxes( $this->imap_connection, $connection_details['host'], '*' );
@@ -182,7 +182,7 @@ class P2BE_Email_Replies extends P2_By_Email {
 		}
 		imap_close( $this->imap_connection, CL_EXPUNGE );
 		
-		return sprintf( __( 'Processed %d emails', 'p2-by-email' ), $success );
+		return sprintf( __( 'Processed %d emails', 'wp-by-email' ), $success );
 	}
 
 	/**
@@ -326,4 +326,4 @@ class P2BE_Email_Replies extends P2_By_Email {
 
 }
 
-P2_By_Email()->extend->email_replies = new P2BE_Email_Replies();
+WP_By_Email()->extend->email_replies = new WPBE_Email_Replies();
