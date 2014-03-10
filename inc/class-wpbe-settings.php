@@ -2,7 +2,7 @@
 
 class WPBE_Settings extends WP_By_Email {
 
-	private $options_key = 'wpbe_settings';
+	private $user_meta_key = 'wpbe_settings';
 	public $default_options = array(
 				'posts'        => 'all',
 				'comments'     => 'all',
@@ -66,6 +66,20 @@ class WPBE_Settings extends WP_By_Email {
 <?php
 	}
 
+	/**
+	 * Build a meta key for use in storing a user's WPBE options. If
+	 * multisite, site IDs will be appended to create unique keys.
+	 *
+	 * @return string Meta key used for a user's WPBE options.
+	 */
+	private function get_user_meta_key() {
+		if ( is_multisite() ) {
+			return $this->user_meta_key . '_' . get_current_blog_id();
+		}
+
+		return $this->user_meta_key;
+	}
+
 	public function save_user_profile_fields( $user_id ) {
 
 		if ( ! current_user_can( 'edit_user', $user_id ) )
@@ -81,12 +95,12 @@ class WPBE_Settings extends WP_By_Email {
 		if ( isset( $_POST['wpbe-mentions'] ) && 'yes' != $_POST['wpbe-mentions'] )
 			$user_options['mentions'] = 'no';
 
-		update_user_meta( $user_id, $this->options_key, $user_options );
+		update_user_meta( $user_id, $this->get_user_meta_key(), $user_options );
 		return;
 	}
 
 	public function get_user_notification_options( $user_id ) {
-		return array_merge( $this->default_options, (array)get_user_meta( $user_id, $this->options_key, true ) );
+		return array_merge( $this->default_options, (array)get_user_meta( $user_id, $this->get_user_meta_key(), true ) );
 	}
 
 
