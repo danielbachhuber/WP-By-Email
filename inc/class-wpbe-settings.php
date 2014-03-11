@@ -27,6 +27,9 @@ class WPBE_Settings extends WP_By_Email {
 		$user_options = $this->get_user_notification_options( $user->ID );
 ?>
 <h3>WP By Email</h3>
+<?php if ( is_multisite() ) : ?>
+	<p class="description">Settings are specific to this site.</p>
+<?php endif; ?>
 	<table class="form-table">
 		<tr>
 			<th><label for="wpbe-posts">Posts</label></th>
