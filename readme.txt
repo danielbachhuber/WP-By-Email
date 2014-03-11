@@ -61,6 +61,7 @@ None yet... Feel free to ask a question in the forums!
 
 * Renamed the plugin to "WP By Email" to better reflect that it's theme-agnostic. If you were using P2 By Email before, you'll need to rename any `p2be_` filters to their `wpbe_` equivalents.
 * Allow the "From Address" to be filtered. [Thanks westonruter](https://github.com/westonruter).
+* Better multisite support: user notification settings are on a site-by-site basis. [Thanks jeremyfelt](https://github.com/jeremyfelt).
 * Bug fix: Fix from: mailing address when site uses HTTPS. [Thanks rjmackay](https://github.com/rjmackay).
 
 = 1.0 (May 8, 2013) =
