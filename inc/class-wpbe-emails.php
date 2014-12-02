@@ -63,6 +63,16 @@ class WPBE_Emails extends WP_By_Email {
 		if ( 1 != $comment->comment_approved )
 			return;
 
+		/**
+		 * Filter the comment types to send notifications for
+		 *
+		 * @param array List of comment types to send notifications for
+		 */
+		$types = apply_filters( 'wpbe_comment_types', array( 'comment' ) );
+		if ( ! in_array( $comment->comment_type, $types ) ) {
+			return;
+		}
+
 		$users = get_users();
 		foreach( $users as $user ) {
 
